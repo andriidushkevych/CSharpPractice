@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Net.Http.Headers;
 
 namespace OpenClosed
@@ -16,15 +17,58 @@ namespace OpenClosed
 
     public class ColorSpecification : ISpecification<Product>
     {
-        private Color color;
+        private Color _color;
         public ColorSpecification(Color color)
         {
-            this.color = color;
+            this._color = color;
         }
 
         public bool IsSatisfied(Product t)
         {
-            return t.Color == color;
+            return t.Color == _color;
+        }
+    }
+
+    public class SizeSpecification : ISpecification<Product>
+    {
+        private Size _size;
+
+        public SizeSpecification(Size size)
+        {
+            _size = size;
+        }
+
+        public bool IsSatisfied(Product t)
+        {
+            return _size == t.Size;
+        }
+    }
+
+    public class CombinedSpecification<T> : ISpecification<T>
+    {
+        private ISpecification<T> first, second;
+
+        public CombinedSpecification(ISpecification<T> first, ISpecification<T> second)
+        {
+            if (first != null) this.first = first;
+            if (second != null) this.second = second;
+        }
+
+        public bool IsSatisfied(T t)
+        {
+            return first.IsSatisfied(t) && second.IsSatisfied(t);
+        }
+    }
+
+    public class EnchancedFilter : IFilter<Product>
+    {
+        public IEnumerable<Product> Filter(IEnumerable<Product> items, ISpecification<Product> spec)
+        {
+            foreach (var item in items)
+            {
+                if (spec.IsSatisfied(item))
+                    yield return item;
+            }
         }
     }
 
@@ -105,6 +149,21 @@ namespace OpenClosed
             foreach (var product in pf.FilterByColor(products, Color.Green))
             {
                 Console.WriteLine($" - {product.Name} is {product.Color}");
+            }
+
+            Console.WriteLine("Green products (new): ");
+            var ef = new EnchancedFilter();
+
+            foreach (var product in ef.Filter(products, new ColorSpecification(Color.Green)))
+            {
+                Console.WriteLine($" - {product.Name} is {product.Color}");
+            }
+
+            Console.WriteLine("Large Blue products: ");
+
+            foreach (var product in ef.Filter(products, new CombinedSpecification<Product>(new ColorSpecification(Color.Blue), new SizeSpecification(Size.Large))))
+            {
+                Console.WriteLine($" - {product.Name} is {product.Color} and {product.Size}");
             }
 
             Console.ReadKey();
