@@ -56,7 +56,7 @@ namespace DependencyInversion
             var relationships = new Relationships();
             relationships.AddParentAndChild(parent, child1);
             relationships.AddParentAndChild(parent, child2);
-
+            new Research(relationships);
         }
     }
 }
