@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyConstructor", "CopyCons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplicitDeepCopyInterface", "ExplicitDeepCopyInterface\ExplicitDeepCopyInterface.csproj", "{237D19E7-A377-4396-A763-C30D4AFE9B81}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CopyThroughSerialization", "CopyThroughSerialization\CopyThroughSerialization.csproj", "{E81A755C-8DD9-45D2-8413-535244D9AA5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{237D19E7-A377-4396-A763-C30D4AFE9B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{237D19E7-A377-4396-A763-C30D4AFE9B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{237D19E7-A377-4396-A763-C30D4AFE9B81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E81A755C-8DD9-45D2-8413-535244D9AA5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E81A755C-8DD9-45D2-8413-535244D9AA5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E81A755C-8DD9-45D2-8413-535244D9AA5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E81A755C-8DD9-45D2-8413-535244D9AA5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
