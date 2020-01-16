@@ -1,0 +1,4 @@
+﻿Kitchener
+350000
+Waterloo
+250000
