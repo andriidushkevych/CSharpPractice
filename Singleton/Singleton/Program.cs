@@ -13,9 +13,11 @@ namespace Singleton
     public class SingletonDatabase : IDatabase
     {
         private Dictionary<string, int> cities;
-
+        private static int instanceCount;
+        public static int Count => instanceCount;
         private SingletonDatabase()
         {
+            instanceCount++;
             cities = new Dictionary<string, int>()
             {
                 {"Kitchener", 200000},
@@ -31,12 +33,31 @@ namespace Singleton
         }
     }
 
+    public class SingletonRecordFinder
+    {
+        public int GetTotalPopulation(IEnumerable<string> names)
+        {
+            int result = 0;
+            foreach (var name in names)
+            {
+                result += SingletonDatabase.Instance.GetPopulation(name);
+            }
+
+            return result;
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
             var db = SingletonDatabase.Instance;
+            var db2 = SingletonDatabase.Instance;
             Console.WriteLine(db.GetPopulation("Kitchener"));
+            Console.WriteLine($"db.Equals(db2): {db.Equals(db2)}");
+            Console.WriteLine($"SingletonDatabase.Count: {SingletonDatabase.Count}");
+            var rf = new SingletonRecordFinder();
+            Console.WriteLine($"Total population of Kitchener and Waterloo: {rf.GetTotalPopulation(new [] { "Kitchener", "Waterloo" })}");
         }
     }
 }
