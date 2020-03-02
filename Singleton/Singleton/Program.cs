@@ -47,6 +47,35 @@ namespace Singleton
         }
     }
 
+    public class DummyDatabase : IDatabase
+    {
+        public int GetPopulation(string name)
+        {
+            return 500;
+        }
+    }
+
+    public class ConfigurableRecordFinder
+    {
+        private IDatabase database;
+
+        public ConfigurableRecordFinder(IDatabase database)
+        {
+            this.database = database;
+        }
+
+        public int GetTotalPopulation(IEnumerable<string> names)
+        {
+            int result = 0;
+            foreach (var name in names)
+            {
+                result += database.GetPopulation(name);
+            }
+
+            return result;
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
@@ -58,6 +87,8 @@ namespace Singleton
             Console.WriteLine($"SingletonDatabase.Count: {SingletonDatabase.Count}");
             var rf = new SingletonRecordFinder();
             Console.WriteLine($"Total population of Kitchener and Waterloo: {rf.GetTotalPopulation(new [] { "Kitchener", "Waterloo" })}");
+            var crf = new ConfigurableRecordFinder(new DummyDatabase());
+            Console.WriteLine($"Total population of Kitchener and Waterloo with ConfigurableRecordFinder and DummyDatabase injected: {crf.GetTotalPopulation(new[] { "Kitchener", "Waterloo" })}");
         }
     }
 }
